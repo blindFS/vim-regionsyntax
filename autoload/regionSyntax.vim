@@ -26,12 +26,15 @@ function! regionSyntax#searchAndEnable(localft, i)
     if s:newft == ""
         let s:newft = a:i['ft']
     endif
-    call regionSyntax#TextEnableCodeSnip(s:newft, substitute(getline('.'), '"', '.', 'g'), substitute(a:i['end'], '"', '.', 'g'), 'SpecialComment')
+    if index(b:oldstart, getline('.')) == -1
+        call regionSyntax#TextEnableCodeSnip(s:newft, substitute(getline('.'), '"', '.', 'g'), substitute(a:i['end'], '"', '.', 'g'), 'SpecialComment')
+        let b:oldstart += [getline('.')]
+    endif
 endfunction
 
 function! regionSyntax#CodeRegionSyntax(localft) abort
-    if !exists('b:oldft')
-        let b:oldft = []
+    if !exists('b:oldstart')
+        let b:oldstart = []
     endif
     let s:pos = getpos('.')
     if exists('g:regionsyntax_map[a:localft]')

@@ -29,6 +29,6 @@ endif
 
 for s:ft in g:regionsyntax_enabled_ft
     execute "autocmd InsertLeave,BufWritePost *.".s:ft." call regionSyntax#CodeRegionSyntax(&ft)"
-    execute "autocmd BufReadPost,BufNewFile *.".s:ft." let b:oldft=[]|call regionSyntax#CodeRegionSyntax(&ft)"
+    execute "autocmd BufReadPost,BufNewFile *.".s:ft." let b:oldstart=[]|call regionSyntax#CodeRegionSyntax(&ft)"
 endfor
 " vim:ts=4:sw=4:tw=78:ft=vim:fdm=indent:fdl=99
