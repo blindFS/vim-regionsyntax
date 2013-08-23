@@ -1,0 +1,43 @@
+*regionsyntax.txt*   Plugin that dynamically highlighting code blocks
+
+==============================================================================
+INTRODUCTION                                                    *regionsyntax*
+
+When editing files with certain code blocks,it's nice to have them highlighted properly.
+
+:[range]RegionSyntax 'filetyp                                  *:RegionSyntax*
+
+Highlight the selected content with the given 'filetype' syntax.
+
+==============================================================================
+CUSTOMIZATION                                              *regionsyntax-rule*
+
+It's really easy to customize your personal rules.Actually, you only need to
+change the following 2 global variables
+
+The map dict                                              *g:regionsyntax_map*
+
+This one is a |Dictionary| where the key is the local 'filetype' and the value
+is a list of rules for that 'filetype'.
+
+The enabled file extensions                *g:regionsyntax_enabled_extensions*
+
+This one is a list of file extensions for |:autocmd|.The reason that I seperated it
+from |g:regionsyntax_map| is that different extensions may result in the same 'ft'.
+The shorter |g:regionsyntax_map| is, the better performance it will have.
+
+Here is a simple example.Say you would like to highlight this:
+
+$$
+...
+$$
+
+in html as tex,you could use the following config.
+
+let g:regionsyntax_map["html"] = [{
+            \ 'start' : '\m^[ \t]*\$\$[ \t]*$',
+            \ 'ft' : 'tex',
+            \ 'end' : '^[ \t]*\$\$[ \t]*$'
+            \ }]
+
+let g:regionsyntax_enabled_extension += ['html']
