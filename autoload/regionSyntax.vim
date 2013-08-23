@@ -27,7 +27,7 @@ function! regionSyntax#searchAndEnable(localft, i)
         let s:newft = a:i['ft']
     endif
     if index(b:oldstart, getline('.')) == -1
-        call regionSyntax#TextEnableCodeSnip(s:newft, substitute(getline('.'), '"', '.', 'g'), substitute(a:i['end'], '"', '.', 'g'), 'SpecialComment')
+        call regionSyntax#TextEnableCodeSnip(s:newft, substitute(getline('.'), '"', '\\"', 'g'), substitute(a:i['end'], '"', '\\"', 'g'), 'SpecialComment')
         let b:oldstart += [getline('.')]
     endif
 endfunction
