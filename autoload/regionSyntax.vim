@@ -21,13 +21,13 @@ function! regionSyntax#TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
                 \ contains=@'.group
 endfunction
 
-function! regionSyntax#searchAndEnable(localft, i)
-    let s:newft = matchstr(getline('.'), a:i['ft'])
+function! regionSyntax#searchAndEnable(localft, rule)
+    let s:newft = matchstr(getline('.'), a:rule['ft'])
     if s:newft == ""
-        let s:newft = a:i['ft']
+        let s:newft = a:rule['ft']
     endif
     if index(b:oldstart, getline('.')) == -1
-        call regionSyntax#TextEnableCodeSnip(s:newft, substitute(getline('.'), '"', '\\"', 'g'), substitute(a:i['end'], '"', '\\"', 'g'), 'SpecialComment')
+        call regionSyntax#TextEnableCodeSnip(s:newft, substitute(getline('.'), '"', '\\"', 'g'), substitute(a:rule['end'], '"', '\\"', 'g'), 'SpecialComment')
         let b:oldstart += [getline('.')]
     endif
 endfunction
@@ -38,8 +38,8 @@ function! regionSyntax#CodeRegionSyntax(localft) abort
     endif
     let s:pos = getpos('.')
     if exists('g:regionsyntax_map[a:localft]')
-        for i in g:regionsyntax_map[a:localft]
-            silent execute "%global/".i['start']."/call regionSyntax#searchAndEnable(a:localft, i)"
+        for rule in g:regionsyntax_map[a:localft]
+            silent execute "%global/".rule['start']."/call regionSyntax#searchAndEnable(a:localft, rule)"
         endfor
     endif
     call setpos('.', s:pos)
