@@ -10,18 +10,12 @@ if !exists('g:regionsyntax_map')
                 \ 'ft' : '\mclass[ \t]*=[ \t]*.\zs\w\+',
                 \ 'end' : '^[ \t]*}}}[ \t]*$'
                 \ }]
-    let g:regionsyntax_map["vimwiki"] += [{
-                \ 'start' : '\m^[ \t]*{{\$[ \t]*$',
-                \ 'ft' : 'tex',
-                \ 'end' : '^[ \t]*}}\$[ \t]*$'
-                \ }]
     let g:regionsyntax_map["mkd"] = [{
                 \ 'start' : '\m^[ \t]*{%[ \t]*highlight[ \t]\+\w\+.*%}[ \t]*$',
                 \ 'ft' : '\mhighlight[ \t]\+\zs\w\+',
                 \ 'end' : '^[ \t]*{%[ \t]*endhighlight[ \t]*%}[ \t]*$',
-                \ }]
-    let g:regionsyntax_map["mkd"] += [{
-                \ 'start' : '\m^[ \t]*```[ \t]*\w\+[ \t]*$',
+                \ },
+                \ {'start' : '\m^[ \t]*```[ \t]*\w\+[ \t]*$',
                 \ 'ft' : '\m```[ \t]*\zs\w\+',
                 \ 'end' : '^[ \t]*```[ \t]*$'
                 \ }]
