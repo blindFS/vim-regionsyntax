@@ -24,5 +24,4 @@ in html as tex,you could use the following config.
     let g:regionsyntax_enabled_extension += ['html']
 
 'html' is the local filetype set to be enabled.You could set a list of rules for a certain local filetype.
-Each rule contains a start pattern, an end pattern, and the new filetype pattern to be found within the start pattern or is specified.
-By default,it enables vimwiki,markdown with liquid template and github flavored code block.
+for more info, please view the [doc](https://raw.github.com/farseer90718/vim-regionsyntax/master/doc/regionsyntax.txt)

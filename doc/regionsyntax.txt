@@ -41,3 +41,19 @@ let g:regionsyntax_map["html"] = [{
             \ }]
 
 let g:regionsyntax_enabled_extension += ['html']
+
+Or you can highlight the github flavored codeblock:
+
+```syntax
+```
+
+by simply adding:
+
+let g:regionsyntax_map["mkd"] += [{
+            \ 'start' : '\m^[ \t]*```[ \t]*<syntax>[ \t]*$',
+            \ 'end' : '^[ \t]*```[ \t]*$'
+            \ }]
+
+If no 'ft' key specified, it will use '<syntax>' part in 'start' to match.
+And if no 'ft' and no '<syntax>' in 'start',it will cause an error.
+
