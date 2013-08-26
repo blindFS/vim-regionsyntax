@@ -1,5 +1,3 @@
-" command! -range -nargs=1 -complete=filetype RegionSyntax
-" \call regionSyntax#TextEnableCodeSnip(<f-args>, substitute(getline("'<"), '"', '\\"', 'g'), substitute(getline("'>"), '"', '\\"', 'g'), 'SpecialComment')
 command! -range -nargs=1 -complete=filetype RegionSyntax call regionSyntax#fromSelection(<f-args>)
 if !exists('g:regionsyntax_enabled_extension')
     let g:regionsyntax_enabled_extension = ['wiki', 'md', 'mkd', 'markdown']
@@ -25,8 +23,10 @@ if !exists('g:regionsyntax_map')
                 \ }]
 endif
 
-for s:ft in g:regionsyntax_enabled_extension
-    execute "autocmd InsertLeave,BufWritePost *.".s:ft." call regionSyntax#CodeRegionSyntax(&ft)"
-    execute "autocmd BufReadPost,BufNewFile *.".s:ft." let b:oldft=[]|call regionSyntax#CodeRegionSyntax(&ft)"
+for s:ex in g:regionsyntax_enabled_extension
+    execute "autocmd InsertLeave,BufWritePost *.".s:ex." call regionSyntax#CodeRegionSyntax(&syntax)"
+endfor
+for s:syn in keys(g:regionsyntax_map)
+    execute "autocmd Syntax ".s:syn." let b:oldft=[]|call regionSyntax#CodeRegionSyntax(&syntax)"
 endfor
 " vim:ts=4:sw=4:tw=78:ft=vim:fdm=indent:fdl=99

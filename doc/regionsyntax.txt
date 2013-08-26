@@ -5,7 +5,7 @@ INTRODUCTION                                                    *regionsyntax*
 
 When editing files with certain code blocks,it's nice to have them highlighted properly.
 
-:[range]RegionSyntax 'filetyp                                  *:RegionSyntax*
+:[range]RegionSyntax 'filetyp'                                 *:RegionSyntax*
 
 Highlight the selected content with the given 'filetype' syntax.
 
