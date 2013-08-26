@@ -62,7 +62,6 @@ function! regionSyntax#fromSelection(ft)
     endwhile
     let s:start = escape(getline(s:l1), '\^$.*[]"~')
     let s:end = escape(getline(s:l2), '\^$.*[]"~')
-    let @/ = s:end
     call regionSyntax#TextEnableCodeSnip(a:ft, s:start, s:end, 'SpecialComment' )
 endfunction
 " vim:ts=4:sw=4:tw=78:ft=vim:fdm=indent:fdl=99
