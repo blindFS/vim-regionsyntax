@@ -23,18 +23,18 @@ endfunction
 
 function! regionSyntax#searchAndEnable(localft, rule) abort
     if exists("a:rule['ft']")
-        let s:newft = a:rule['ft']
+        let newft = a:rule['ft']
     else
-        let s:newft = matchstr(getline('.'), substitute(a:rule['start'], '<syntax>', '\\zs\\w\\+\\ze', ''))
+        let newft = matchstr(getline('.'), substitute(a:rule['start'], '<syntax>', '\\zs\\w\\+\\ze', ''))
     endif
-    if s:newft !~ '\m\w\+'
+    if newft !~ '\m\w\+'
         echoerr "Key 'ft' is needed if no '<syntax>' contained in 'start'!"
     endif
-    if index(b:oldft, s:newft) == -1
-        let s:start = escape(a:rule['start'], '"')
-        let s:end = escape(a:rule['end'], '"')
-        call regionSyntax#TextEnableCodeSnip(s:newft, substitute(s:start, '<syntax>', s:newft, 'g'), s:end, 'SpecialComment')
-        let b:oldft += [s:newft]
+    if index(b:oldft, newft) == -1
+        let start = escape(a:rule['start'], '"')
+        let end = escape(a:rule['end'], '"')
+        call regionSyntax#TextEnableCodeSnip(newft, substitute(start, '<syntax>', newft, 'g'), end, 'SpecialComment')
+        let b:oldft += [newft]
     endif
 endfunction
 
@@ -42,26 +42,26 @@ function! regionSyntax#CodeRegionSyntax(localft) abort
     if !exists('b:oldft')
         let b:oldft= []
     endif
-    let s:pos = getpos('.')
+    let pos = getpos('.')
     if exists('g:regionsyntax_map[a:localft]')
         for rule in g:regionsyntax_map[a:localft]
             silent execute "%global/".substitute(rule['start'], '<syntax>', '\\w\\+', 'g')."/call regionSyntax#searchAndEnable(a:localft, rule)"
         endfor
     endif
-    call setpos('.', s:pos)
+    call setpos('.', pos)
 endfunction
 
 function! regionSyntax#fromSelection(ft)
-    let s:l1 = line("'<")
-    let s:l2 = line("'>")
-    while getline(s:l1) =~ '^[ \t]*$' && s:l1 < s:l2
-        let s:l1 += 1
+    let l1 = line("'<")
+    let l2 = line("'>")
+    while getline(l1) =~ '^[ \t]*$' && l1 < l2
+        let l1 += 1
     endwhile
-    while getline(s:l2) =~ '^[ \t]*$' && s:l1 < s:l2
-        let s:l1 -= 1
+    while getline(l2) =~ '^[ \t]*$' && l1 < l2
+        let l1 -= 1
     endwhile
-    let s:start = escape(getline(s:l1), '\^$.*[]"~')
-    let s:end = escape(getline(s:l2), '\^$.*[]"~')
-    call regionSyntax#TextEnableCodeSnip(a:ft, s:start, s:end, 'SpecialComment' )
+    let start = escape(getline(l1), '\^$.*[]"~')
+    let end = escape(getline(l2), '\^$.*[]"~')
+    call regionSyntax#TextEnableCodeSnip(a:ft, start, end, 'SpecialComment' )
 endfunction
 " vim:ts=4:sw=4:tw=78:ft=vim:fdm=indent:fdl=99
