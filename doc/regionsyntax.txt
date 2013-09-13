@@ -3,9 +3,10 @@
 ==============================================================================
 INTRODUCTION                                                    *regionsyntax*
 
-When editing files with certain code blocks,it's nice to have them highlighted properly.
+When editing files with certain code blocks,it's nice to get them highlighted
+properly.
 
-:[range]RegionSyntax 'filetype'                                 *:RegionSyntax*
+:[range]RegionSyntax 'filetype'                                *:RegionSyntax*
 
 Highlight the selected content with the given 'filetype' syntax.
 
@@ -22,9 +23,9 @@ is a list of rules for that 'filetype'.
 
 The enabled file extensions                *g:regionsyntax_enabled_extensions*
 
-This one is a list of file extensions for |:autocmd|.The reason that I seperated it
-from |g:regionsyntax_map| is that different extensions may result in the same 'ft'.
-The shorter |g:regionsyntax_map| is, the better performance it will have.
+This one is a list of file extensions for |:autocmd|.The reason to seperate it
+from |g:regionsyntax_map| is that different extensions may result in the same
+'ft'.The shorter |g:regionsyntax_map| is, the better performance it will have.
 
 Here is a simple example.Say you would like to highlight this:
 
@@ -47,13 +48,14 @@ Or you can highlight the github flavored codeblock:
 ```syntax
 ```
 
-by simply adding:
+in markdown files by simply adding:
 
 let g:regionsyntax_map["mkd"] += [{
             \ 'start' : '\m^[ \t]*```[ \t]*<syntax>[ \t]*$',
             \ 'end' : '^[ \t]*```[ \t]*$'
             \ }]
 
-If no 'ft' key specified, it will use '<syntax>' part in 'start' to match.
-And if no 'ft' and no '<syntax>' in 'start',it will cause an error.
+If no 'ft' key specified,it will use the '<syntax>' part in 'start' pattern
+to match the new 'ft'.So make sure that there is a 'ft' key or a 'start' with
+the '<syntax>' pattern in each of your rules.
 
