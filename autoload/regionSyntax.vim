@@ -12,8 +12,6 @@ function! regionSyntax#TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
     endtry
     if exists('s:current_syntax')
         let b:current_syntax=s:current_syntax
-    else
-        unlet b:current_syntax
     endif
     execute 'syntax region textSnip'.ft.'
                 \ matchgroup='.a:textSnipHl.'
