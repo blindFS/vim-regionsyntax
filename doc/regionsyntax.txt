@@ -59,3 +59,15 @@ If no 'ft' key specified,it will use the '<syntax>' part in 'start' pattern
 to match the new 'ft'.So make sure that there is a 'ft' key or a 'start' with
 the '<syntax>' pattern in each of your rules.
 
+'syntax' transform dictionary                        *g:regionsyntax_ft_trans*
+
+This variable is particularly helpful in the situation that the text
+representing the new 'syntax' appearing which may be recognized by other
+programs(such as pygmentize) need to be different with the actual 'syntax'
+to be recognized by vim.
+
+For example,
+
+let g:regionsyntax_ft_trans = {'ini' : 'dosini'}
+
+will let ini codeblocks highlighted properly.
