@@ -1,6 +1,6 @@
 command! -range -nargs=1 -complete=filetype RegionSyntax call regionSyntax#fromSelection(<f-args>)
 if !exists('g:regionsyntax_enabled_extension')
-    let g:regionsyntax_enabled_extension = ['wiki', 'md', 'mkd', 'markdown']
+    let g:regionsyntax_enabled_extension = ['wiki', 'md', 'mkd', 'markdown', 'html']
 endif
 
 if !exists('g:regionsyntax_map')
@@ -20,6 +20,11 @@ if !exists('g:regionsyntax_map')
                 \ },
                 \ {'start' : '\m^[ \t]*```[ \t]*<syntax>[ \t]*$',
                 \ 'end' : '^[ \t]*```[ \t]*$'
+                \ }]
+    let g:regionsyntax_map["html"] = [{
+                \ 'start' : '\m^[ \t]*<script type="text\/template">',
+                \ 'ft' : 'markdown',
+                \ 'end' : '\m^[ \t]*<\/script>'
                 \ }]
 endif
 
