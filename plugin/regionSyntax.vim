@@ -9,23 +9,30 @@ if !exists('g:regionsyntax_map')
                 \ 'start' : '\m^[ \t]*{{{class[ \t]*=[ \t]*.[ \t]*<syntax>[ \t]*.[ \t]*$',
                 \ 'end' : '^[ \t]*}}}[ \t]*$'
                 \ },
-                \{'start' : '\m^[ \t]*{{\$[ \t]*$',
+                \ {'start' : '\m^[ \t]*{{\$[ \t]*$',
                 \ 'ft' : 'tex',
                 \ 'end' : '\m^[ \t]*}}\$[ \t]*$'
-                \}
-                \ ]
+                \ }]
     let g:regionsyntax_map["markdown"] = [{
                 \ 'start' : '\m^[ \t]*{%[ \t]*highlight[ \t]\+<syntax>.*%}[ \t]*$',
                 \ 'end' : '^[ \t]*{%[ \t]*endhighlight[ \t]*%}[ \t]*$',
                 \ },
                 \ {'start' : '\m^[ \t]*```[ \t]*<syntax>[ \t]*$',
                 \ 'end' : '^[ \t]*```[ \t]*$'
+                \ },
+                \ {'start' : '\m^[ \t]*\$\$[ \t]*$',
+                \ 'ft' : 'tex',
+                \ 'end' : '^[ \t]*\$\$[ \t]*$'
                 \ }]
     let g:regionsyntax_map["mkd"] = g:regionsyntax_map["markdown"]
     let g:regionsyntax_map["html"] = [{
                 \ 'start' : '\m^[ \t]*<script type="text\/template">',
                 \ 'ft' : 'markdown',
                 \ 'end' : '\m^[ \t]*<\/script>'
+                \ },
+                \ {'start' : '\m^[ \t]*\$\$[ \t]*$',
+                \ 'ft' : 'tex',
+                \ 'end' : '^[ \t]*\$\$[ \t]*$'
                 \ }]
 endif
 
