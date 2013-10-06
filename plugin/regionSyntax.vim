@@ -14,13 +14,14 @@ if !exists('g:regionsyntax_map')
                 \ 'end' : '\m^[ \t]*}}\$[ \t]*$'
                 \}
                 \ ]
-    let g:regionsyntax_map["mkd"] = [{
+    let g:regionsyntax_map["markdown"] = [{
                 \ 'start' : '\m^[ \t]*{%[ \t]*highlight[ \t]\+<syntax>.*%}[ \t]*$',
                 \ 'end' : '^[ \t]*{%[ \t]*endhighlight[ \t]*%}[ \t]*$',
                 \ },
                 \ {'start' : '\m^[ \t]*```[ \t]*<syntax>[ \t]*$',
                 \ 'end' : '^[ \t]*```[ \t]*$'
                 \ }]
+    let g:regionsyntax_map["mkd"] = g:regionsyntax_map["markdown"]
     let g:regionsyntax_map["html"] = [{
                 \ 'start' : '\m^[ \t]*<script type="text\/template">',
                 \ 'ft' : 'markdown',
