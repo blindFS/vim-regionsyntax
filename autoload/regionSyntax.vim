@@ -19,32 +19,34 @@ function! regionSyntax#TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
                 \ contains=@'.group
 endfunction
 
-function! regionSyntax#SearchAndEnable(localft, rule) abort
+function! regionSyntax#SearchAndEnable(localft, rule, index) abort
     if exists("a:rule['ft']")
         let newft = a:rule['ft']
     else
+        while !exists('b:oldft['.a:index.']')
+            let b:oldft += [[]]
+        endwhile
         let newft = matchstr(getline('.'), substitute(a:rule['start'], '<syntax>', '\\zs\\w\\+\\ze', ''))
     endif
     if newft !~ '\m\w\+'
         echoerr "Key 'ft' is needed if no '<syntax>' contained in 'start'!"
     endif
     let newft_trans = exists('g:regionsyntax_ft_trans["'.newft.'"]')? g:regionsyntax_ft_trans[newft]: newft
-    if index(b:oldft, newft) == -1
+    if index(b:oldft[a:index], newft) == -1
         let start = escape(a:rule['start'], '"')
         let end = escape(a:rule['end'], '"')
         call regionSyntax#TextEnableCodeSnip(newft_trans, substitute(start, '<syntax>', newft, 'g'), end, 'SpecialComment')
-        let b:oldft += [newft]
+        let b:oldft[a:index] += [newft]
     endif
 endfunction
 
 function! regionSyntax#CodeRegionSyntax(localft) abort
-    if !exists('b:oldft')
-        let b:oldft= []
-    endif
     let pos = getpos('.')
     if exists('g:regionsyntax_map[a:localft]')
+        let index = 0
         for rule in g:regionsyntax_map[a:localft]
-            silent execute "%global/".substitute(rule['start'], '<syntax>', '\\w\\+', 'g')."/call regionSyntax#SearchAndEnable(a:localft, rule)"
+            silent execute "%global/".substitute(rule['start'], '<syntax>', '\\w\\+', 'g')."/call regionSyntax#SearchAndEnable(a:localft, rule, index)"
+            let index += 1
         endfor
     endif
     call setpos('.', pos)
