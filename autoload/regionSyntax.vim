@@ -20,12 +20,12 @@ function! regionSyntax#TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
 endfunction
 
 function! regionSyntax#SearchAndEnable(localft, rule, index) abort
+    while !exists('b:oldft['.a:index.']')
+        let b:oldft += [[]]
+    endwhile
     if exists("a:rule['ft']")
         let newft = a:rule['ft']
     else
-        while !exists('b:oldft['.a:index.']')
-            let b:oldft += [[]]
-        endwhile
         let newft = matchstr(getline('.'), substitute(a:rule['start'], '<syntax>', '\\zs\\w\\+\\ze', ''))
     endif
     if newft !~ '\m\w\+'
