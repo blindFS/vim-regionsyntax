@@ -27,3 +27,7 @@ let g:regionsyntax_enabled_extension += ['html']
 
 'html' is the local filetype set to be enabled.You could set a list of rules for a certain local filetype.
 for more info, please view the [doc](https://raw.github.com/farseer90718/vim-regionsyntax/master/doc/regionsyntax.txt)
+
+### License
+
+MIT

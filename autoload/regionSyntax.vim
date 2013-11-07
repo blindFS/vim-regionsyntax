@@ -20,7 +20,7 @@ function! regionSyntax#TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
 endfunction
 
 function! regionSyntax#SearchAndEnable(localft, rule, index) abort
-    while !exists('b:oldft['.a:index.']')
+    while !exists('b:oldft[a:index]')
         let b:oldft += [[]]
     endwhile
     if exists("a:rule['ft']")
@@ -31,7 +31,7 @@ function! regionSyntax#SearchAndEnable(localft, rule, index) abort
     if newft !~ '\m\w\+'
         echoerr "Key 'ft' is needed if no '<syntax>' contained in 'start'!"
     endif
-    let newft_trans = exists('g:regionsyntax_ft_trans["'.newft.'"]')? g:regionsyntax_ft_trans[newft]: newft
+    let newft_trans = exists('g:regionsyntax_ft_trans[newft]')? g:regionsyntax_ft_trans[newft]: newft
     if index(b:oldft[a:index], newft) == -1
         let start = escape(a:rule['start'], '"')
         let end = escape(a:rule['end'], '"')
