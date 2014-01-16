@@ -4,7 +4,8 @@ When editing files with certain code blocks,it's nice to have them highlighted p
 
 ### How to use it? ###
 
-Use `:[range]RegionSyntax filetype` to highlight the selected block.
+`:[range]RegionSyntax filetype` highlight the selected block.
+`:RegionSyntaxToggle` enable/disable this plugin.
 Or you can specify new rules for dynamic syntax highlighting with the global variable g:regionsyntax_map and g:regionsyntax_enabled_extension.
 
 Say you would like to highlight this

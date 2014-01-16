@@ -1,7 +1,7 @@
 command! -range -nargs=1 -complete=filetype RegionSyntax call regionSyntax#fromSelection(<f-args>)
-if !exists('g:regionsyntax_enabled_extension')
-    let g:regionsyntax_enabled_extension = ['wiki', 'md', 'mkd', 'markdown', 'html']
-endif
+command! RegionSyntaxToggle call regionSyntax#Toggle()
+let g:regionsyntax_on                = get(g:, 'regionsyntax_on', 1)
+let g:regionsyntax_enabled_extension = get(g:, 'regionsyntax_enabled_extension', ['wiki', 'md', 'mkd', 'markdown', 'html'])
 
 if !exists('g:regionsyntax_map')
     let g:regionsyntax_map = {}

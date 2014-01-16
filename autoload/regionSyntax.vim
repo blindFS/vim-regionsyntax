@@ -1,8 +1,8 @@
-function! regionSyntax#TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
-    let ft=toupper(a:filetype)
-    let group='textGroup'.ft
+function! regionSyntax#TextEnableCodeSnip(filetype, start, end, textSnipHl) abort
+    let ft = toupper(a:filetype)
+    let group = 'textGroup'.ft
     if exists('b:current_syntax')
-        let s:current_syntax=b:current_syntax
+        let s:current_syntax = b:current_syntax
         unlet b:current_syntax
     endif
     try
@@ -11,12 +11,9 @@ function! regionSyntax#TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
     catch
     endtry
     if exists('s:current_syntax')
-        let b:current_syntax=s:current_syntax
+        let b:current_syntax = s:current_syntax
     endif
-    execute 'syntax region textSnip'.ft.'
-                \ matchgroup='.a:textSnipHl.'
-                \ start="'.a:start.'" end="'.a:end.'"
-                \ contains=@'.group
+    execute 'syntax region textSnip'.ft.' matchgroup='.a:textSnipHl.' start="'.a:start.'" end="'.a:end.'" contains=@'.group
 endfunction
 
 function! regionSyntax#SearchAndEnable(localft, rule, index) abort
@@ -41,6 +38,9 @@ function! regionSyntax#SearchAndEnable(localft, rule, index) abort
 endfunction
 
 function! regionSyntax#CodeRegionSyntax(localft) abort
+    if !g:regionsyntax_on
+        return
+    endif
     let pos = getpos('.')
     if exists('g:regionsyntax_map[a:localft]')
         let index = 0
@@ -63,6 +63,20 @@ function! regionSyntax#fromSelection(ft)
     endwhile
     let start = escape(getline(l1), '\^$.*[]"~')
     let end = escape(getline(l2), '\^$.*[]"~')
-    call regionSyntax#TextEnableCodeSnip(a:ft, start, end, 'SpecialComment' )
+    call regionSyntax#TextEnableCodeSnip(a:ft, start, end, 'SpecialComment')
+endfunction
+
+function! regionSyntax#Toggle()
+    let g:regionsyntax_on = !g:regionsyntax_on
+    if !g:regionsyntax_on && exists('b:oldft')
+        for bundle in b:oldft
+            for ft in bundle
+                execute 'syntax clear textSnip'.ft
+            endfor
+        endfor
+        let b:oldft = []
+    elseif g:regionsyntax_on
+        call regionSyntax#CodeRegionSyntax(&filetype)
+    endif
 endfunction
 " vim:ts=4:sw=4:tw=78:ft=vim:fdm=indent:fdl=99
