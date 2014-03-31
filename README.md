@@ -1,6 +1,7 @@
 ### What for? ###
 
 When editing files with certain code blocks,it's nice to have them highlighted properly.
+![image](https://raw.githubusercontent.com/farseer90718/vim-regionsyntax/master/screenshot.png)
 
 ### How to use it? ###
 

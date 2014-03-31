@@ -1,7 +1,7 @@
 command! -range -nargs=1 -complete=filetype RegionSyntax call regionSyntax#fromSelection(<f-args>)
 command! RegionSyntaxToggle call regionSyntax#Toggle()
 let g:regionsyntax_on                = get(g:, 'regionsyntax_on', 1)
-let g:regionsyntax_enabled_extension = get(g:, 'regionsyntax_enabled_extension', ['wiki', 'md', 'mkd', 'markdown', 'html'])
+let g:regionsyntax_enabled_extension = get(g:, 'regionsyntax_enabled_extension', ['wiki', 'md', 'mkd', 'markdown', 'html', 'tex'])
 
 if !exists('g:regionsyntax_map')
     let g:regionsyntax_map = {}
@@ -34,12 +34,16 @@ if !exists('g:regionsyntax_map')
                 \ 'ft' : 'tex',
                 \ 'end' : '^[ \t]*\$\$[ \t]*$'
                 \ }]
+    let g:regionsyntax_map["tex"] = [{
+                \ 'start' : '\\begin{minted}[^{]*{<syntax>}',
+                \ 'end' : '\\end{minted}',
+                \ }]
 endif
 
 for s:ex in g:regionsyntax_enabled_extension
     execute "autocmd InsertLeave,BufWritePost *.".s:ex." call regionSyntax#CodeRegionSyntax(&syntax)"
 endfor
 for s:syn in keys(g:regionsyntax_map)
-    execute "autocmd Syntax ".s:syn." let b:oldft=[]|call regionSyntax#CodeRegionSyntax(&syntax)"
+    execute "autocmd Syntax ".s:syn." let b:regionsyntax_old_ft=[]|call regionSyntax#CodeRegionSyntax(&syntax)"
 endfor
 " vim:ts=4:sw=4:tw=78:ft=vim:fdm=indent:fdl=99

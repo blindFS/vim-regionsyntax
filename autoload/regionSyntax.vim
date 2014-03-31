@@ -13,12 +13,12 @@ function! regionSyntax#TextEnableCodeSnip(filetype, start, end, textSnipHl) abor
     if exists('s:current_syntax')
         let b:current_syntax = s:current_syntax
     endif
-    execute 'syntax region textSnip'.ft.' matchgroup='.a:textSnipHl.' start="'.a:start.'" end="'.a:end.'" contains=@'.group
+    execute 'syntax region textSnip'.ft.' matchgroup='.a:textSnipHl.' start="'.a:start.'" end="'.a:end.'" contains=@'.group.' containedin=ALL'
 endfunction
 
 function! regionSyntax#SearchAndEnable(localft, rule, index) abort
-    while !exists('b:oldft[a:index]')
-        let b:oldft += [[]]
+    while !exists('b:regionsyntax_old_ft[a:index]')
+        let b:regionsyntax_old_ft += [[]]
     endwhile
     if exists("a:rule['ft']")
         let newft = a:rule['ft']
@@ -29,11 +29,11 @@ function! regionSyntax#SearchAndEnable(localft, rule, index) abort
         echoerr "Key 'ft' is needed if no '<syntax>' contained in 'start'!"
     endif
     let newft_trans = exists('g:regionsyntax_ft_trans[newft]')? g:regionsyntax_ft_trans[newft]: newft
-    if index(b:oldft[a:index], newft) == -1
+    if index(b:regionsyntax_old_ft[a:index], newft) == -1
         let start = escape(a:rule['start'], '"')
         let end = escape(a:rule['end'], '"')
         call regionSyntax#TextEnableCodeSnip(newft_trans, substitute(start, '<syntax>', newft, 'g'), end, 'SpecialComment')
-        let b:oldft[a:index] += [newft]
+        let b:regionsyntax_old_ft[a:index] += [newft]
     endif
 endfunction
 
@@ -68,13 +68,13 @@ endfunction
 
 function! regionSyntax#Toggle()
     let g:regionsyntax_on = !g:regionsyntax_on
-    if !g:regionsyntax_on && exists('b:oldft')
-        for bundle in b:oldft
+    if !g:regionsyntax_on && exists('b:regionsyntax_old_ft')
+        for bundle in b:regionsyntax_old_ft
             for ft in bundle
                 execute 'syntax clear textSnip'.ft
             endfor
         endfor
-        let b:oldft = []
+        let b:regionsyntax_old_ft = []
     elseif g:regionsyntax_on
         call regionSyntax#CodeRegionSyntax(&filetype)
     endif
