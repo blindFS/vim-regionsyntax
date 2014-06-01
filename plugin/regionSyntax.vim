@@ -1,48 +1,48 @@
 command! -range -nargs=1 -complete=filetype RegionSyntax call regionSyntax#fromSelection(<f-args>)
 command! RegionSyntaxToggle call regionSyntax#Toggle()
 let g:regionsyntax_on                = get(g:, 'regionsyntax_on', 1)
-let g:regionsyntax_enabled_extension = get(g:, 'regionsyntax_enabled_extension', ['wiki', 'md', 'mkd', 'markdown', 'html', 'tex'])
+let g:regionsyntax_map               = get(g:, 'regionsyntax_map', {})
 
-if !exists('g:regionsyntax_map')
-    let g:regionsyntax_map = {}
-    let g:regionsyntax_map["vimwiki"] = [{
-                \ 'start' : '\m^[ \t]*{{{class[ \t]*=[ \t]*.[ \t]*<syntax>[ \t]*.[ \t]*$',
-                \ 'end' : '^[ \t]*}}}[ \t]*$'
-                \ },
-                \ {'start' : '\m^[ \t]*{{\$[ \t]*$',
-                \ 'ft' : 'tex',
-                \ 'end' : '\m^[ \t]*}}\$[ \t]*$'
-                \ }]
-    let g:regionsyntax_map["markdown"] = [{
-                \ 'start' : '\m^[ \t]*{%[ \t]*highlight[ \t]\+<syntax>.*%}[ \t]*$',
-                \ 'end' : '^[ \t]*{%[ \t]*endhighlight[ \t]*%}[ \t]*$',
-                \ },
-                \ {'start' : '\m^[ \t]*```[ \t]*<syntax>[ \t]*$',
-                \ 'end' : '^[ \t]*```[ \t]*$'
-                \ },
-                \ {'start' : '\m^[ \t]*\$\$[ \t]*$',
-                \ 'ft' : 'tex',
-                \ 'end' : '^[ \t]*\$\$[ \t]*$'
-                \ }]
-    let g:regionsyntax_map["mkd"] = g:regionsyntax_map["markdown"]
-    let g:regionsyntax_map["html"] = [{
-                \ 'start' : '\m^[ \t]*<script type="text\/template">',
-                \ 'ft' : 'markdown',
-                \ 'end' : '\m^[ \t]*<\/script>'
-                \ },
-                \ {'start' : '\m^[ \t]*\$\$[ \t]*$',
-                \ 'ft' : 'tex',
-                \ 'end' : '^[ \t]*\$\$[ \t]*$'
-                \ }]
-    let g:regionsyntax_map["tex"] = [{
-                \ 'start' : '\\begin{minted}[^{]*{<syntax>}',
-                \ 'end' : '\\end{minted}',
-                \ }]
-endif
+let s:regionsyntax_map = {
+            \ "vimwiki" :
+            \ [{
+            \   'start' : '^[ \t]*{{{class[ \t]*=[ \t]*.[ \t]*<syntax>[ \t]*.[ \t]*$',
+            \   'end' : '^[ \t]*}}}[ \t]*$'
+            \ },
+            \ {
+            \   'start' : '^[ \t]*{{\$[ \t]*$',
+            \   'ft' : 'tex',
+            \   'end' : '^[ \t]*}}\$[ \t]*$'
+            \ }],
+            \ "markdown" :
+            \ [{
+            \   'start' : '^[ \t]*{%[ \t]*highlight[ \t]\+<syntax>.*%}[ \t]*$',
+            \   'end' : '^[ \t]*{%[ \t]*endhighlight[ \t]*%}[ \t]*$',
+            \ },
+            \ {
+            \   'start' : '^[ \t]*```[ \t]*<syntax>[ \t]*',
+            \   'end' : '^[ \t]*```[ \t]*$'
+            \ },
+            \ {
+            \   'start' : '^[ \t]*\$\$[ \t]*$',
+            \   'ft' : 'tex',
+            \   'end' : '^[ \t]*\$\$[ \t]*$'
+            \ }],
+            \ "html" :
+            \ [{
+            \   'start' : '^[ \t]*<script type="text\/template">',
+            \   'ft' : 'markdown',
+            \   'end' : '^[ \t]*<\/script>'
+            \ },
+            \ {
+            \   'start' : '^[ \t]*\$\$[ \t]*$',
+            \   'ft' : 'tex',
+            \   'end' : '^[ \t]*\$\$[ \t]*$'
+            \ }],}
 
-for s:ex in g:regionsyntax_enabled_extension
-    execute "autocmd InsertLeave,BufWritePost *.".s:ex." call regionSyntax#CodeRegionSyntax(&syntax)"
-endfor
+let g:regionsyntax_map = extend(s:regionsyntax_map, g:regionsyntax_map)
+
+autocmd InsertLeave,BufWritePost * call regionSyntax#CodeRegionSyntax(&syntax)
 for s:syn in keys(g:regionsyntax_map)
     execute "autocmd Syntax ".s:syn." let b:regionsyntax_old_ft=[]|call regionSyntax#CodeRegionSyntax(&syntax)"
 endfor

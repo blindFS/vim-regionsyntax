@@ -38,6 +38,9 @@ function! regionSyntax#SearchAndEnable(localft, rule, index) abort
 endfunction
 
 function! regionSyntax#CodeRegionSyntax(localft) abort
+    if index(keys(g:regionsyntax_map), a:localft) == -1
+        return
+    endif
     if !g:regionsyntax_on
         return
     endif
