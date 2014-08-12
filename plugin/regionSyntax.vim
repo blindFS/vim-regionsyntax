@@ -1,3 +1,6 @@
+if exists('g:loaded_regionsyntax') && g:loaded_regionsyntax
+    finish
+endif
 command! -range -nargs=1 -complete=filetype RegionSyntax call regionSyntax#fromSelection(<f-args>)
 command! RegionSyntaxToggle call regionSyntax#Toggle()
 let g:regionsyntax_on                = get(g:, 'regionsyntax_on', 1)
@@ -46,4 +49,6 @@ autocmd InsertLeave,BufWritePost * call regionSyntax#CodeRegionSyntax(&syntax)
 for s:syn in keys(g:regionsyntax_map)
     execute "autocmd Syntax ".s:syn." let b:regionsyntax_old_ft=[]|call regionSyntax#CodeRegionSyntax(&syntax)"
 endfor
+
+let g:loaded_regionsyntax = 1
 " vim:ts=4:sw=4:tw=78:ft=vim:fdm=indent:fdl=99
