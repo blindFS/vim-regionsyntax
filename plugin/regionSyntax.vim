@@ -16,6 +16,11 @@ let s:regionsyntax_map = {
             \   'start' : '^[ \t]*{{\$[ \t]*$',
             \   'ft' : 'tex',
             \   'end' : '^[ \t]*}}\$[ \t]*$'
+            \ },
+            \ {
+            \   'start' : '<script[^>]*>',
+            \   'ft' : 'javascript',
+            \   'end' : '<.script>'
             \ }],
             \ "markdown" :
             \ [{
