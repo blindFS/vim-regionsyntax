@@ -23,13 +23,17 @@ let s:regionsyntax_map = {
             \   'end' : '^[ \t]*{%[ \t]*endhighlight[ \t]*%}[ \t]*$',
             \ },
             \ {
+            \   'start' : '^[ \t]*{%[ \t]*codeblock[ \t]\+lang:<syntax>.*%}[ \t]*$',
+            \   'end' : '^[ \t]*{%[ \t]*endcodeblock[ \t]*%}[ \t]*$',
+            \ },
+            \ {
             \   'start' : '^[ \t]*```[ \t]*<syntax>[ \t]*',
             \   'end' : '^[ \t]*```[ \t]*$'
             \ },
             \ {
             \   'start' : '^[ \t]*\$\$[ \t]*$',
             \   'ft' : 'tex',
-            \   'end' : '^[ \t]*\$\$[ \t]*$'
+            \   'end' : '^[ \t]*\$\$.*$'
             \ }],
             \ "html" :
             \ [{
@@ -40,7 +44,7 @@ let s:regionsyntax_map = {
             \ {
             \   'start' : '^[ \t]*\$\$[ \t]*$',
             \   'ft' : 'tex',
-            \   'end' : '^[ \t]*\$\$[ \t]*$'
+            \   'end' : '^[ \t]*\$\$.*$'
             \ }],}
 
 let g:regionsyntax_map = extend(s:regionsyntax_map, g:regionsyntax_map)
